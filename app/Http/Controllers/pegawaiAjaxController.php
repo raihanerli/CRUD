@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
+
+
 class pegawaiAjaxController extends Controller
 {
     /**
@@ -44,7 +46,7 @@ class pegawaiAjaxController extends Controller
      */
     public function store(Request $request) //berfungsi untuk menangani pengiriman data pengguna dan menyimpannya ke database setelah divalidasi.
     {
-        $validasi = Validator::make(request->all(), [
+        $validasi = Validator::make(request()->all(), [
             'nama' => 'required',
             'email' => 'required|email'
         ], [

@@ -23,3 +23,4 @@ Route::get('/pegawai', function(){
 });
 
 Route::resource('pegawaiAjax',pegawaiAjaxController::class);
+Route::put('/pegawaiAjax', [pegawaiAjaxController::class, 'update']);

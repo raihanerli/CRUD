@@ -87,7 +87,8 @@ class pegawaiAjaxController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = pegawai::where('id', $id)->first();// panggilnya disini pake parameter id untuk menampilkan data sesuai id yg dimiliki.
+        return response()->json(['result' => $data]);
     }
 
     /**
@@ -99,7 +100,26 @@ class pegawaiAjaxController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validasi = Validator::make(request()->all(), [
+            'nama' => 'required',
+            'email' => 'required|email'
+        ], [
+            'nama.required' => 'Nama wajib diisi',
+            'email.required' => 'Email wajib diisi',
+            'email.email' => 'Format email wajib benar',
+        ]);//proses untuk melakukan validasi
+        // bisa di cek metodenya menggunakan php artisan route:list
+
+        if ($validasi->fails()) {
+            return response()->json(['errors' => $validasi->errors()]);
+        } else {
+            $data = [
+                'nama' => $request->nama,
+                'email' => $request->email
+            ];
+            pegawai::where('id', $id)->update($data); //ini akan mengupdate data dari request data, pastikan app/modelsnya sudah dipanggil diatasnya
+            return response()->json(['success' => "Berhasil melakukan update data"]);
+        }
     }
 
     /**
@@ -110,6 +130,6 @@ class pegawaiAjaxController extends Controller
      */
     public function destroy($id)
     {
-        //
+        pegawai::where('id', $id)->delete();
     }
 }
